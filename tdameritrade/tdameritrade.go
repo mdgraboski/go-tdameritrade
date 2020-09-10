@@ -100,15 +100,16 @@ func (c *Client) Do(ctx context.Context, req *http.Request, v interface{}) (*Res
 
 	response := newResponse(resp)
 
-	// BEGIN EXTREMELY HACKY FIX: volatility:"NaN" and delta:"NaN" throwing an error in json parsing
-	// so we're just going to replace it with volatility:0.0
+	// BEGIN EXTREMELY HACKY FIX: volatility:"NaN" and delta:"NaN" and gamma:"NaN" throwing an error in json parsing
+	// so we're just going to replace it with volatility:0.0, delta:1000.0, gamma:1000.0
 	rawBytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
 	rawBytes = bytes.ReplaceAll(rawBytes, []byte("\"volatility\":\"NaN\""), []byte("\"volatility\":0.0"))
-	// delta can only be between -1.0 to 1.0, so we'll put a nonsense value of 1000.0 for when it's NaN.  
+	// delta and gamma can only be between -1.0 to 1.0, so we'll put a nonsense value of 1000.0 for when it's NaN.  
 	rawBytes = bytes.ReplaceAll(rawBytes, []byte("\"delta\":\"NaN\""), []byte("\"delta\":1000.0"))
+	rawBytes = bytes.ReplaceAll(rawBytes, []byte("\"gamma\":\"NaN\""), []byte("\"gamma\":1000.0"))
 	fmt.Printf(string(rawBytes))
 	// write to v for that good shit
 	if v != nil {
