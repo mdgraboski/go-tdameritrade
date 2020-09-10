@@ -107,7 +107,7 @@ func (c *Client) Do(ctx context.Context, req *http.Request, v interface{}) (*Res
 		return nil, err
 	}
 	rawBytes = bytes.ReplaceAll(rawBytes, []byte("\"volatility\":\"NaN\""), []byte("\"volatility\":0.0"))
-
+	fmt.Printf(string(rawBytes))
 	// write to v for that good shit
 	if v != nil {
 		if w, ok := v.(io.Writer); ok {
