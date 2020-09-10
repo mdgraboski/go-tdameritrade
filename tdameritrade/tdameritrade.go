@@ -111,6 +111,7 @@ func (c *Client) Do(ctx context.Context, req *http.Request, v interface{}) (*Res
 	rawBytes = bytes.ReplaceAll(rawBytes, []byte("\"delta\":\"NaN\""), []byte("\"delta\":1000000.0"))
 	rawBytes = bytes.ReplaceAll(rawBytes, []byte("\"gamma\":\"NaN\""), []byte("\"gamma\":1000000.0"))
 	rawBytes = bytes.ReplaceAll(rawBytes, []byte("\"theta\":\"NaN\""), []byte("\"theta\":1000000.0"))
+	rawBytes = bytes.ReplaceAll(rawBytes, []byte("\"rho\":\"NaN\""), []byte("\"rho\":1000000.0"))
 	fmt.Printf(string(rawBytes))
 	// write to v for that good shit
 	if v != nil {
