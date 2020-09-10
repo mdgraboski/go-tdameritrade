@@ -100,9 +100,13 @@ func (c *Client) Do(ctx context.Context, req *http.Request, v interface{}) (*Res
 
 	response := newResponse(resp)
 
-	//debug
-	rawBytes, _ := ioutil.ReadAll(resp.Body)
-	fmt.Printf(string(rawBytes))
+	// BEGIN EXTREMELY HACKY FIX: volatility:"NaN" throwing an error in json parsing
+	// so we're just going to replace it with volatility:0.0
+	rawBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	rawBytes = bytes.ReplaceAll(rawBytes, []byte("\"volatility\":\"NaN\""), []byte("\"volatility\":0.0"))
 
 	// write to v for that good shit
 	if v != nil {
