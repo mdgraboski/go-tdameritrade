@@ -1,2 +1,5 @@
 # go-tdameritrade
-go client for the tdameritrade api
+
+DO NOT USE THIS LIBRARY.
+
+Use https://github.com/zricethezav/go-tdameritrade instead.
