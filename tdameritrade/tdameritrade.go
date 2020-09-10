@@ -100,6 +100,10 @@ func (c *Client) Do(ctx context.Context, req *http.Request, v interface{}) (*Res
 
 	response := newResponse(resp)
 
+	//debug
+	rawBytes, _ := ioutil.ReadAll(resp.Body)
+	fmt.Printf(string(rawBytes))
+
 	// write to v for that good shit
 	if v != nil {
 		if w, ok := v.(io.Writer); ok {
